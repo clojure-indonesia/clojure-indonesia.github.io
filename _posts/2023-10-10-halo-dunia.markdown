@@ -21,3 +21,6 @@ date:   2023-10-10 14:02:00 +0700
 
 (halo-dunia-pake-lambda)
 ```
+```clojure
+(#(apply str %&) "Halo, " "Dunia!")
+```
