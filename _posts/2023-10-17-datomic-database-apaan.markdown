@@ -15,4 +15,4 @@ Jadi masalah apa yang coba diselesaikan oleh Datomic:
 
 Kekurangan Datomic yang bikin impresi pertama langsung kureng adalah `Datomic tidak open-source`, dengan itu saja biasanya langsung pada males buat ngecek lebih jauh; sangat dekat dengan Clojure (ini bisa sebagai kekurangan, bisa juga sebagai kelebihan sih) yang mana Datomic memang ditulis menggunakan Clojure.
 
-Udah segitu dulu aja, jam 4 pagi nih, tidur dulu, nanti kan bisa diedit lagi--kalo banyak yang suka nanti bisa kita tulis part 2--aku masih nganggur kok wkwk (promo siapa tau ada yang mau kasih kerjaan).
+Udah segitu dulu aja, jam 4 pagi nih, tidur dulu, nanti kan bisa diedit lagi--kalo banyak yang suka nanti bisa kita tulis part 2
