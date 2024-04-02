@@ -3,7 +3,7 @@ layout: post
 title:  "Tail-call optimization"
 date:   2024-04-03 04:56:00 +0700
 ---
-Before we start, eak aku taunya itu doang bahasa inggris, pasti udah baca [recursion](https://clojure-indonesia.github.io/2024/04/01/recursion.html), dan ngalamin error ketika nyobain factorial dengan angka yang besar: `(factorial 100)` atau `(factorial 1000)` atau `(factorial 10000)` mungkin. Jangan lama-lama, kodenya mana dong?
+Before we start, eak aku taunya itu doang bahasa inggris, pastikan udah baca [recursion](https://clojure-indonesia.github.io/2024/04/01/recursion.html), dan ngalamin error ketika nyobain factorial dengan angka yang besar: `(factorial 100)` atau `(factorial 1000)` atau `(factorial 10000)` mungkin. Jangan lama-lama, kodenya mana dong?
 ```common-lisp
 CL-USER> (defun factorial (n)
            (labels ((aux (n acc)
