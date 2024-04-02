@@ -1,26 +1,27 @@
 ---
 layout: post
-title:  "Recursion"
-date:   2024-04-01 19:48:00 +0700
+title:  "Tail-call optimization"
+date:   2024-04-03 04:56:00 +0700
 ---
-Selalu tricky kalo ngomongin `recursion`, selalu berbahaya kalo merasa udah tau (aku mending ngga tau daripada merasa tau). `Recursion--function yang memanggil (invoke) dia sendiri, function yang memanggil (invoke) dia sendiri, function yang memanggil (invoke) dia sendiri.`
-
-Terus kapan dia akan berhenti? Yep, itu dia pertanyaanya, itu dia yang perlu dipahami. Sekarang, coba mana kodenya?
-```clj
-user> (defn factorial
-        [n]
-        (if (zero? n)
-          1
-          (* n (factorial (dec n)))))
-#'user/factorial
-user> (factorial 10)
-3628800
-user> (* 1 2 3 4 5 6 7 8 9 10)
+Before we start, eak aku taunya itu doang bahasa inggris, pasti udah baca [recursion](https://clojure-indonesia.github.io/2024/04/01/recursion.html), dan ngalamin error ketika nyobain factorial dengan angka yang besar: `(factorial 100)` atau `(factorial 1000)` atau `(factorial 10000)` mungkin. Jangan lama-lama, kodenya mana dong?
+```common-lisp
+CL-USER> (defun factorial (n)
+           (labels ((aux (n acc)
+		              (if (zerop n)
+			              acc
+			              (aux (- n 1) (* acc n)))))
+             (aux n 1)))
+FACTORIAL
+CL-USER> (trace factorial)
+(FACTORIAL)
+CL-USER> (factorial 10)
+  0: (FACTORIAL 10)
+  0: FACTORIAL returned 3628800
 3628800
 ```
-Factorial di atas sebagai contoh, dia akan berhenti ketika `n sama dengan 0`, ketika `n tidak sama dengan 0`, dia memanggil dia sendiri dengan proses `n` yang kita bikin untuk selalu mendekati (towards) `0`.
+Bedanya apa dengan [recursion](https://clojure-indonesia.github.io/2024/04/01/recursion.html)?, emang gimana sih cara kerja recursion? cara kerja function? sangat penting untuk ngerti recursion terlebih dahulu, baru kemudian mulai mempelajari tail-call.
 
-Sebentar, coba kita melipir ke `Common LISP`, Common LISP ada function bawaan--`trace` yang cukup membantu ngasih visualisai recursion, kode di atas (Clojure) coba kita terjemahkan juga ke Common LISP:
+Sebagai pembanding, coba kita lihat lagi sebelum tail-call:
 ```common-lisp
 CL-USER> (defun factorial (n)
 	       (if (zerop n)
@@ -54,10 +55,25 @@ CL-USER> (factorial 10)
   0: FACTORIAL returned 3628800
 3628800
 ```
-Clojure ngga ada function bawaan begitu, kita harus pake library `org.clojure/tools.trace`, tanpa bikin `deps.edn` gini caranya:
+Itu kan di Common LISP, gimana kalo di Clojure? kita bikin:
 ```bash
 clojure -Sdeps '{:deps {org.clojure/tools.trace {:mvn/version "0.8.0"}}}'
 ```
+```clj
+user> (deftrace factorial
+        [n]
+        (loop [n n
+               acc 1]
+          (if (zero? n)
+            acc
+            (recur (dec n) (* acc n)))))
+#'user/factorial
+user> (factorial 10)
+TRACE t412: (factorial 10)
+TRACE t412: => 3628800
+3628800
+```
+Sebelum tail-call, sebagai pembanding:
 ```clj
 user> (require '[clojure.tools.trace :refer [deftrace]])
 nil
@@ -92,6 +108,6 @@ TRACE t423: | => 362880
 TRACE t422: => 3628800
 3628800
 ```
-Coba pake angka yang besar, 100 mungkin, atau 1000, gimana hasilnya, dan kenapa? coba di`solve` error yang terjadi saat input eksekusi `(factorial 100)`, terus di`solve` juga error yang terjadi ketika eksekusi `(factorial 1000)`.
-
-Have **fun**ctional programming!
+Kelihatan perbedaannya, ngga?
+Jadi gimana cara kerja recursion?
+Jadi gimana cara kerja function?
