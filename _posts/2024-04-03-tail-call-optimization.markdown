@@ -60,6 +60,8 @@ Itu kan di Common LISP, gimana kalo di Clojure? kita bikin:
 clojure -Sdeps '{:deps {org.clojure/tools.trace {:mvn/version "0.8.0"}}}'
 ```
 ```clj
+user> (require '[clojure.tools.trace :refer [deftrace]])
+nil
 user> (deftrace factorial
         [n]
         (loop [n n
@@ -75,8 +77,6 @@ TRACE t412: => 3628800
 ```
 Sebelum tail-call, sebagai pembanding:
 ```clj
-user> (require '[clojure.tools.trace :refer [deftrace]])
-nil
 user> (deftrace factorial
         [n]
         (if (zero? n)
